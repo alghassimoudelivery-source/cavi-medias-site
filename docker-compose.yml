@@ -1,5 +1,6 @@
 # Site Cavi-Medias (WordPress) — ConforDev
-# Variables à fournir à la création du projet : DB_PASS, SITE_URL, ADMIN_USER, ADMIN_PASS, ADMIN_EMAIL, INDEXABLE (0 = aperçu non indexé)
+# Le site écoute sur 127.0.0.1:8095 ; le serveur web de l'hôte (CloudPanel) fait le HTTPS et renvoie vers ce port.
+# Variables à fournir à la création du projet : CAVI_PORT (8095 par défaut), DB_PASS, SITE_URL, ADMIN_USER, ADMIN_PASS, ADMIN_EMAIL, INDEXABLE (0 = aperçu non indexé)
 services:
   db:
     image: mariadb:11.4
@@ -23,8 +24,12 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8095:80"
+      - "127.0.0.1:${CAVI_PORT:-8095}:80"
     environment:
+      WORDPRESS_CONFIG_EXTRA: |
+        if ( isset( $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) { $$_SERVER['HTTPS'] = 'on'; }
+        if ( isset( $$_SERVER['HTTP_X_FORWARDED_HOST'] ) ) { $$_SERVER['HTTP_HOST'] = $$_SERVER['HTTP_X_FORWARDED_HOST']; }
+        define( 'DISALLOW_FILE_EDIT', true );
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: cavi
       WORDPRESS_DB_USER: cavi
