@@ -129,7 +129,7 @@ class RadioScreen extends StatelessWidget {
                   message: 'Vérifiez votre connexion internet puis réessayez.',
                   onRetry: radio.play,
                   secondaryLabel: 'Ouvrir le lecteur web',
-                  onSecondary: () => openLink(context, AppConfig.radioStreamUrl),
+                  onSecondary: () => openLink(context, AppConfig.radioPlayerPage),
                 ),
               ],
               const SizedBox(height: 26),

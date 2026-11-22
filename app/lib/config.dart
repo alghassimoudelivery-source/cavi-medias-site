@@ -13,7 +13,12 @@ class AppConfig {
 
   // ---------- Directs ----------
   static const tvStreamUrl = 'https://broadlio.com/hls/tv/cavi-tv.m3u8';
-  static const radioStreamUrl = 'https://broadlio.com/fm/cavi-fm';
+
+  /// Flux audio MP3 (Icecast) lu par l'application.
+  static const radioStreamUrl = 'https://broadlio.com/radio/cavi-fm.mp3';
+
+  /// Page web du lecteur broadlio (ouverte en secours dans le navigateur).
+  static const radioPlayerPage = 'https://broadlio.com/fm/cavi-fm';
 
   // ---------- Siam Info ----------
   /// Adresse publique du site Siam Info (ouverte dans le navigateur).
