@@ -2,10 +2,17 @@ name: Application Flutter (Android)
 
 on:
   push:
+    branches: [main]
     paths: ["app/**", ".github/workflows/app-android.yml"]
   pull_request:
     paths: ["app/**", ".github/workflows/app-android.yml"]
   workflow_dispatch:
+
+# Une seule construction à la fois par branche : évite les téléchargements
+# Maven en double (Maven Central renvoie 429 « Too Many Requests »).
+concurrency:
+  group: app-android-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -19,6 +26,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.50.1"
