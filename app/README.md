@@ -45,3 +45,23 @@ Icônes et écran de démarrage : images sources dans `branding/`, puis
 - App Store : compte Apple Developer, signature dans Xcode, puis `flutter build ipa`.
 
 Application réalisée par ConforDev — https://confordev.com
+
+### Signature Google Play
+
+Créer la clé d'envoi une seule fois (à conserver précieusement avec ses mots de passe,
+elle est indispensable pour toutes les mises à jour) :
+
+```bash
+keytool -genkey -v -keystore C:\Users\User\cavi-medias-cles\upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+Puis créer `android/key.properties` (ignoré par Git) :
+
+```
+storePassword=…
+keyPassword=…
+keyAlias=upload
+storeFile=C:/Users/User/cavi-medias-cles/upload-keystore.jks
+```
+
+`flutter build appbundle --release` produit alors `build/app/outputs/bundle/release/app-release.aab`, signé pour Google Play.
