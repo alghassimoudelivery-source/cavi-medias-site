@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-const CAVI_VERSION = '1.2.0';
+const CAVI_VERSION = '1.3.0';
 const CAVI_PHONE = '+224 624 39 74 76';
 const CAVI_EMAIL = 'contact@cavimedias.com';
 const CAVI_ADDRESS = 'Yimbaya carrefour Camp, Commune de Gbessia, Conakry, République de Guinée';
@@ -15,6 +15,18 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
 	add_theme_support( 'post-thumbnails' );
+} );
+
+/* Page de connexion aux couleurs Cavi-Medias */
+add_action( 'login_enqueue_scripts', function () {
+	wp_enqueue_style( 'cavi-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap', array(), null );
+	wp_enqueue_style( 'cavi-login', get_theme_file_uri( 'assets/css/login.css' ), array( 'login' ), CAVI_VERSION );
+} );
+add_filter( 'login_headerurl', function () { return home_url( '/' ); } );
+add_filter( 'login_headertext', function () { return 'Cavi-Medias'; } );
+add_filter( 'login_display_language_dropdown', '__return_false' );
+add_action( 'login_footer', function () {
+	echo '<p class="cavi-credit">Site réalisé par <a href="https://confordev.com" target="_blank" rel="noopener">ConforDev</a></p>';
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
