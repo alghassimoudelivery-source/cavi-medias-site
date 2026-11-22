@@ -23,5 +23,8 @@ wp option update home "$SITE_URL"
 wp option update siteurl "$SITE_URL"
 wp option update blog_public "${INDEXABLE:-0}"
 wp language core install fr_FR --activate || echo "Langue FR non installee"
+if [ ! -f .htaccess ] || ! grep -q "BEGIN WordPress" .htaccess; then
+  printf '%s\n' "# BEGIN WordPress" "<IfModule mod_rewrite.c>" "RewriteEngine On" "RewriteBase /" "RewriteRule ^index\\.php$ - [L]" "RewriteCond %{REQUEST_FILENAME} !-f" "RewriteCond %{REQUEST_FILENAME} !-d" "RewriteRule . /index.php [L]" "</IfModule>" "# END WordPress" >> .htaccess
+fi
 wp rewrite flush --hard || true
 echo "CAVI-SETUP-OK $(wp core version) theme=$(wp theme list --status=active --field=name)"
