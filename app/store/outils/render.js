@@ -14,5 +14,10 @@ const path = require('path');
       await pg.screenshot({ path: path.join(out, `p${p}-capture${i}-1290x2796.png`) }); await pg.close();
     }
   }
+  for (const p of [1, 2, 3]) for (let i = 1; i <= 4; i++) {
+    const pg = await b.newPage({ viewport: { width: 432, height: 768 }, deviceScaleFactor: 2.5 });
+    await pg.goto('file://' + path.join(dir, `p${p}-gp${i}.html`)); await pg.waitForTimeout(300);
+    await pg.screenshot({ path: path.join(out, `p${p}-googleplay${i}-1080x1920.png`) }); await pg.close();
+  }
   await b.close();
 })();

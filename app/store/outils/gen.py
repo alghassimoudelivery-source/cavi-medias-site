@@ -30,32 +30,32 @@ def phone(src, left, top, width, rot=0, extra=""):
             f'transform:rotate({rot}deg);{extra}"><img src="{src}"></div>')
 
 
-def shot(p, i):
+def shot(p, i, H=932):
     src, h1, h2 = SHOTS[i]
     if p == 1:  # Nuit : fond bleu nuit, formes rondes, titre en haut
-        body = f"""<div style="position:relative;width:430px;height:932px;background:#0c1020;overflow:hidden">
+        body = f"""<div style="position:relative;width:430px;height:{H}px;background:#0c1020;overflow:hidden">
 <div style="position:absolute;right:-120px;top:-90px;width:330px;height:330px;border-radius:50%;background:#2f6fe0;opacity:.9"></div>
 <div style="position:absolute;left:-90px;bottom:120px;width:240px;height:240px;border-radius:50%;background:#5b55c9;opacity:.55"></div>
 <div style="position:absolute;left:32px;top:62px;right:32px">
 <div style="font-size:15px;font-weight:600;letter-spacing:.14em;color:#9cbcff;text-transform:uppercase;margin-bottom:12px">Cavi-Medias</div>
 <div style="font-size:38px;font-weight:800;line-height:1.08;letter-spacing:-.02em">{h1}</div>
 <div style="font-size:21px;font-weight:600;color:#a3abc4;margin-top:10px">{h2}</div></div>
-{phone(src, 63, 300, 304)}</div>"""
+{phone(src, 63, 300 if H > 800 else 262, 304)}</div>"""
     elif p == 2:  # Couleurs : une couleur de marque par écran, téléphone incliné
         c = COLORS2[i]
-        body = f"""<div style="position:relative;width:430px;height:932px;background:{c};overflow:hidden">
+        body = f"""<div style="position:relative;width:430px;height:{H}px;background:{c};overflow:hidden">
 <div style="position:absolute;left:30px;top:58px;right:30px;text-align:center">
 <div style="font-size:40px;font-weight:800;line-height:1.08;letter-spacing:-.02em">{h1}</div>
 <div style="font-size:21px;font-weight:600;opacity:.88;margin-top:10px">{h2}</div></div>
-{phone(src, 52, 268, 326, -5)}</div>"""
+{phone(src, 52, 268 if H > 800 else 236, 326, -5)}</div>"""
     else:  # Affiche : noir cinéma, titres Bebas, barre rouge, téléphone décalé
-        body = f"""<div style="position:relative;width:430px;height:932px;background:#0b0b0f;overflow:hidden">
-<div style="position:absolute;left:0;right:0;bottom:0;height:300px;background:#e8262b"></div>
+        body = f"""<div style="position:relative;width:430px;height:{H}px;background:#0b0b0f;overflow:hidden">
+<div style="position:absolute;left:0;right:0;bottom:0;height:{int(H*0.32)}px;background:#e8262b"></div>
 <div style="position:absolute;left:30px;top:56px;right:24px">
 <div style="width:46px;height:5px;background:#e8262b;margin-bottom:16px"></div>
 <div style="font-family:Bebas;font-size:66px;line-height:.9">{h1}</div>
 <div style="font-size:20px;font-weight:600;color:#c9cad3;margin-top:12px">{h2}</div></div>
-{phone(src, 70, 330, 290)}</div>"""
+{phone(src, 70, 330 if H > 800 else 286, 290)}</div>"""
     return HEAD + body + "</body></html>"
 
 
@@ -93,3 +93,4 @@ for p in (1, 2, 3):
     open(os.path.join(D, f"p{p}-feature.html"), "w").write(feature(p))
     for i in range(4):
         open(os.path.join(D, f"p{p}-s{i+1}.html"), "w").write(shot(p, i))
+        open(os.path.join(D, f"p{p}-gp{i+1}.html"), "w").write(shot(p, i, 768).replace("width:430px", "width:432px"))
