@@ -1,0 +1,1 @@
+<?php get_header(); ?><section class="phero"><div class="hero-bg"></div><div class="wrap phero-in"><h1><?php echo esc_html( wp_get_document_title() ); ?></h1></div></section><section class="sec"><div class="wrap prose"><?php while ( have_posts() ) : the_post(); the_content(); endwhile; ?></div></section><?php get_footer(); ?>
