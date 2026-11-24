@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-const CAVI_VERSION = '1.3.0';
+const CAVI_VERSION = '1.3.1';
 const CAVI_PHONE = '+224 624 39 74 76';
 const CAVI_EMAIL = 'contact@cavimedias.com';
 const CAVI_ADDRESS = 'Yimbaya carrefour Camp, Commune de Gbessia, Conakry, République de Guinée';

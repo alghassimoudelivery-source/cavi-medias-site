@@ -57,8 +57,8 @@
   function start() {
     if (!ready) {
       ready = true;
-      if (v.canPlayType('application/vnd.apple.mpegurl')) { v.src = src; }
-      else if (window.Hls && window.Hls.isSupported()) {
+      /* hls.js en priorité (Chrome, Edge, Firefox, Android) ; lecture native seulement sur Safari / iPhone */
+      if (window.Hls && window.Hls.isSupported()) {
         hls = new window.Hls({ lowLatencyMode: true });
         hls.on(window.Hls.Events.ERROR, function (e, d) { if (d && d.fatal) fail(); });
         hls.loadSource(src); hls.attachMedia(v);
