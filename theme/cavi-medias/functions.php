@@ -9,7 +9,7 @@ const CAVI_PHONE = '+224 624 39 74 76';
 const CAVI_EMAIL = 'contact@cavimedias.com';
 const CAVI_ADDRESS = 'Yimbaya carrefour Camp, Commune de Gbessia, Conakry, République de Guinée';
 const CAVI_TV    = 'https://broadlio.com/hls/tv/cavi-tv.m3u8';
-const CAVI_RADIO = 'https://broadlio.com/fm/cavi-fm';
+const CAVI_RADIO = 'https://broadlio.com/radio/cavi-fm.mp3';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
