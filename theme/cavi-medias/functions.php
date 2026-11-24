@@ -4,12 +4,13 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-const CAVI_VERSION = '1.3.1';
+const CAVI_VERSION = '1.3.2';
 const CAVI_PHONE = '+224 624 39 74 76';
 const CAVI_EMAIL = 'contact@cavimedias.com';
 const CAVI_ADDRESS = 'Yimbaya carrefour Camp, Commune de Gbessia, Conakry, République de Guinée';
 const CAVI_TV    = 'https://broadlio.com/hls/tv/cavi-tv.m3u8';
 const CAVI_RADIO = 'https://broadlio.com/radio/cavi-fm.mp3';
+const CAVI_APP_ANDROID = 'https://play.google.com/store/apps/details?id=com.cavimedias.app';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
@@ -45,7 +46,10 @@ function cavi_opt( $key, $default = '' ) {
 	$v = get_theme_mod( 'cavi_' . $key, '' );
 	return ( '' === $v || null === $v ) ? $default : $v;
 }
-function cavi_url( $key ) { echo esc_url( cavi_opt( $key, '#' ) ); }
+function cavi_url( $key ) {
+	$defaults = array( 'app_android' => CAVI_APP_ANDROID );
+	echo esc_url( cavi_opt( $key, isset( $defaults[ $key ] ) ? $defaults[ $key ] : '#' ) );
+}
 function cavi_current( $slug ) {
 	$on = ( '' === $slug ) ? is_front_page() : is_page( $slug );
 	if ( $on ) { echo ' aria-current="page"'; }
