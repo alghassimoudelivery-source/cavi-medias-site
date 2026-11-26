@@ -93,3 +93,50 @@
   a.addEventListener('pause', function () { ui(false); });
   a.addEventListener('error', function () { ui(false); err.hidden = false; });
 })();
+
+/* Grille des programmes : onglets par jour + émission en cours (heure de Conakry = GMT) */
+(function () {
+  document.querySelectorAll('[data-grille]').forEach(function (g) {
+    var tabs = [].slice.call(g.querySelectorAll('[role="tab"]'));
+    var panels = [].slice.call(g.querySelectorAll('[role="tabpanel"]'));
+    function show(i, focus) {
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        panels[k].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { show(i); });
+      t.addEventListener('keydown', function (e) {
+        var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (n) { e.preventDefault(); show((i + n + tabs.length) % tabs.length, true); }
+      });
+    });
+    function tick(first) {
+      var d = new Date();
+      var min = d.getUTCHours() * 60 + d.getUTCMinutes();
+      var axis = (min - 360 + 1440) % 1440;          /* minutes depuis 6h00 */
+      var day = (d.getUTCDay() + 6) % 7;              /* 0 = lundi */
+      if (min < 360) day = (day + 6) % 7;             /* avant 6h : journée d'antenne de la veille */
+      tabs.forEach(function (t, k) { t.classList.toggle('today', k === day); });
+      panels.forEach(function (p, k) {
+        [].forEach.call(p.querySelectorAll('li'), function (li) {
+          var s = +li.getAttribute('data-s'), e = +li.getAttribute('data-e');
+          li.classList.toggle('on', k === day && axis >= s && axis < e);
+          li.classList.toggle('past', k === day && axis >= e);
+        });
+      });
+      if (first) {
+        show(day);
+        var cur = panels[day].querySelector('li.on') || panels[day].querySelector('li:not(.past)');
+        var ol = panels[day].querySelector('ol');
+        if (cur && ol) ol.scrollTop = Math.max(0, cur.offsetTop - 8);
+      }
+    }
+    tick(true);
+    setInterval(tick, 60000);
+  });
+})();
