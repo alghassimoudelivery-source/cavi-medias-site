@@ -4,7 +4,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-const CAVI_VERSION = '1.3.2';
+const CAVI_VERSION = '1.3.3';
 const CAVI_PHONE = '+224 624 39 74 76';
 const CAVI_EMAIL = 'contact@cavimedias.com';
 const CAVI_ADDRESS = 'Yimbaya carrefour Camp, Commune de Gbessia, Conakry, République de Guinée';
@@ -47,7 +47,7 @@ function cavi_opt( $key, $default = '' ) {
 	return ( '' === $v || null === $v ) ? $default : $v;
 }
 function cavi_url( $key ) {
-	$defaults = array( 'app_android' => CAVI_APP_ANDROID );
+	$defaults = array( 'app_android' => CAVI_APP_ANDROID, 'kit' => get_theme_file_uri( 'assets/docs/kit-media-cavi-medias.pdf' ) );
 	echo esc_url( cavi_opt( $key, isset( $defaults[ $key ] ) ? $defaults[ $key ] : '#' ) );
 }
 function cavi_current( $slug ) {
